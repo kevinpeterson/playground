@@ -27,6 +27,108 @@ type Point = {
   y: number
 };
 
+
+let data = "5.1\t3.5\t1\n" +
+    "4.9\t3.0\t1\n" +
+    "4.7\t3.2\t1\n" +
+    "4.6\t3.1\t1\n" +
+    "5.0\t3.6\t1\n" +
+    "5.4\t3.9\t1\n" +
+    "4.6\t3.4\t1\n" +
+    "5.0\t3.4\t1\n" +
+    "4.4\t2.9\t1\n" +
+    "4.9\t3.1\t1\n" +
+    "5.4\t3.7\t1\n" +
+    "4.8\t3.4\t1\n" +
+    "4.8\t3.0\t1\n" +
+    "4.3\t3.0\t1\n" +
+    "5.8\t4.0\t1\n" +
+    "5.7\t4.4\t1\n" +
+    "5.4\t3.9\t1\n" +
+    "5.1\t3.5\t1\n" +
+    "5.7\t3.8\t1\n" +
+    "5.1\t3.8\t1\n" +
+    "5.4\t3.4\t1\n" +
+    "5.1\t3.7\t1\n" +
+    "4.6\t3.6\t1\n" +
+    "5.1\t3.3\t1\n" +
+    "4.8\t3.4\t1\n" +
+    "5.0\t3.0\t1\n" +
+    "5.0\t3.4\t1\n" +
+    "5.2\t3.5\t1\n" +
+    "5.2\t3.4\t1\n" +
+    "4.7\t3.2\t1\n" +
+    "4.8\t3.1\t1\n" +
+    "5.4\t3.4\t1\n" +
+    "5.2\t4.1\t1\n" +
+    "5.5\t4.2\t1\n" +
+    "4.9\t3.1\t1\n" +
+    "5.0\t3.2\t1\n" +
+    "5.5\t3.5\t1\n" +
+    "4.9\t3.1\t1\n" +
+    "4.4\t3.0\t1\n" +
+    "5.1\t3.4\t1\n" +
+    "5.0\t3.5\t1\n" +
+    "4.5\t2.3\t1\n" +
+    "4.4\t3.2\t1\n" +
+    "5.0\t3.5\t1\n" +
+    "5.1\t3.8\t1\n" +
+    "4.8\t3.0\t1\n" +
+    "5.1\t3.8\t1\n" +
+    "4.6\t3.2\t1\n" +
+    "5.3\t3.7\t1\n" +
+    "5.0\t3.3\t1\n" +
+    "6.3\t3.3\t-1\n" +
+    "5.8\t2.7\t-1\n" +
+    "7.1\t3.0\t-1\n" +
+    "6.3\t2.9\t-1\n" +
+    "6.5\t3.0\t-1\n" +
+    "7.6\t3.0\t-1\n" +
+    "4.9\t2.5\t-1\n" +
+    "7.3\t2.9\t-1\n" +
+    "6.7\t2.5\t-1\n" +
+    "7.2\t3.6\t-1\n" +
+    "6.5\t3.2\t-1\n" +
+    "6.4\t2.7\t-1\n" +
+    "6.8\t3.0\t-1\n" +
+    "5.7\t2.5\t-1\n" +
+    "5.8\t2.8\t-1\n" +
+    "6.4\t3.2\t-1\n" +
+    "6.5\t3.0\t-1\n" +
+    "7.7\t3.8\t-1\n" +
+    "7.7\t2.6\t-1\n" +
+    "6.0\t2.2\t-1\n" +
+    "6.9\t3.2\t-1\n" +
+    "5.6\t2.8\t-1\n" +
+    "7.7\t2.8\t-1\n" +
+    "6.3\t2.7\t-1\n" +
+    "6.7\t3.3\t-1\n" +
+    "7.2\t3.2\t-1\n" +
+    "6.2\t2.8\t-1\n" +
+    "6.1\t3.0\t-1\n" +
+    "6.4\t2.8\t-1\n" +
+    "7.2\t3.0\t-1\n" +
+    "7.4\t2.8\t-1\n" +
+    "7.9\t3.8\t-1\n" +
+    "6.4\t2.8\t-1\n" +
+    "6.3\t2.8\t-1\n" +
+    "6.1\t2.6\t-1\n" +
+    "7.7\t3.0\t-1\n" +
+    "6.3\t3.4\t-1\n" +
+    "6.4\t3.1\t-1\n" +
+    "6.0\t3.0\t-1\n" +
+    "6.9\t3.1\t-1\n" +
+    "6.7\t3.1\t-1\n" +
+    "6.9\t3.1\t-1\n" +
+    "5.8\t2.7\t-1\n" +
+    "6.8\t3.2\t-1\n" +
+    "6.7\t3.3\t-1\n" +
+    "6.7\t3.0\t-1\n" +
+    "6.3\t2.5\t-1\n" +
+    "6.5\t3.0\t-1\n" +
+    "6.2\t3.4\t-1\n" +
+    "5.9\t3.0\t-1";
+
 /**
  * Shuffles the array using Fisher-Yates algorithm. Uses the seedrandom
  * library as the random generator.
@@ -68,6 +170,44 @@ export function classifyTwoGaussData(numSamples: number, noise: number):
   genGauss(2, 2, 1); // Gaussian with positive examples.
   genGauss(-2, -2, -1); // Gaussian with negative examples.
   return points;
+}
+
+export function customData() {
+  let points: Example2D[] = [];
+
+    var lines = data.split('\n');
+    for(var i = 0;i < lines.length;i++){
+        let line = lines[i];
+        let tokens = line.split("\t")
+        let x:number = +tokens[0];
+        let y:number = +tokens[1];
+        let label:number = +tokens[2]
+        points.push({x, y, label});
+    }
+
+
+return points;
+/*
+    Example2D[] {
+    let radius = 6;
+    let numSamples = 100;
+    let noise = 10;
+    let labelScale = d3.scale.linear()
+        .domain([-10, 10])
+        .range([-1, 1]);
+    let getLabel = (x, y) => labelScale(x + y);
+
+    let points: Example2D[] = [];
+    for (let i = 0; i < numSamples; i++) {
+        let x = randUniform(-radius, radius);
+        let y = randUniform(-radius, radius);
+        let noiseX = randUniform(-radius, radius) * noise;
+        let noiseY = randUniform(-radius, radius) * noise;
+        let label = getLabel(x + noiseX, y + noiseY);
+        points.push({x, y, label});
+    }
+    return points;
+    */
 }
 
 export function regressPlane(numSamples: number, noise: number):

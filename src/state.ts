@@ -85,13 +85,17 @@ export enum Type {
 }
 
 export enum Problem {
-  CLASSIFICATION,
-  REGRESSION
+  EXAMPLE_CLASSIFICATION,
+  EXAMPLE_REGRESSION,
+  CUSTOM_CLASSIFICATION,
+  CUSTOM_REGRESSION
 }
 
 export let problems = {
-  "classification": Problem.CLASSIFICATION,
-  "regression": Problem.REGRESSION
+  "example_classification": Problem.EXAMPLE_CLASSIFICATION,
+  "example_regression": Problem.EXAMPLE_REGRESSION,
+    "custom_classification": Problem.CUSTOM_REGRESSION,
+    "custom_regression": Problem.CUSTOM_REGRESSION
 };
 
 export interface Property {
@@ -144,7 +148,7 @@ export class State {
   percTrainData = 50;
   activation = nn.Activations.TANH;
   regularization: nn.RegularizationFunction = null;
-  problem = Problem.CLASSIFICATION;
+  problem = Problem.EXAMPLE_CLASSIFICATION;
   initZero = false;
   hideText = false;
   collectStats = false;
@@ -162,6 +166,7 @@ export class State {
   sinY = false;
   dataset: dataset.DataGenerator = dataset.classifyCircleData;
   regDataset: dataset.DataGenerator = dataset.regressPlane;
+  customDataset: dataset.DataGenerator = dataset.customData;
   seed: string;
 
   /**

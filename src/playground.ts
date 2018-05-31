@@ -25,8 +25,9 @@ import {
   getKeyFromValue,
   Problem
 } from "./state";
-import {Example2D, shuffle} from "./dataset";
+import {customData, Example2D, shuffle} from "./dataset";
 import {AppendingLineChart} from "./linechart";
+import * as dataset from "./dataset";
 
 let mainWidth;
 
@@ -952,7 +953,7 @@ function reset(onStartup=false) {
   iter = 0;
   let numInputs = constructInput(0 , 0).length;
   let shape = [numInputs].concat(state.networkShape).concat([1]);
-  let outputActivation = (state.problem === Problem.REGRESSION) ?
+  let outputActivation = (state.problem === Problem.EXAMPLE_REGRESSION) ?
       nn.Activations.LINEAR : nn.Activations.TANH;
   network = nn.buildNetwork(shape, state.activation, outputActivation,
       state.regularization, constructInputIds(), state.initZero);
@@ -1005,7 +1006,7 @@ function drawDatasetThumbnails() {
   }
   d3.selectAll(".dataset").style("display", "none");
 
-  if (state.problem === Problem.CLASSIFICATION) {
+  if (state.problem === Problem.EXAMPLE_CLASSIFICATION) {
     for (let dataset in datasets) {
       let canvas: any =
           document.querySelector(`canvas[data-dataset=${dataset}]`);
@@ -1013,7 +1014,7 @@ function drawDatasetThumbnails() {
       renderThumbnail(canvas, dataGenerator);
     }
   }
-  if (state.problem === Problem.REGRESSION) {
+  if (state.problem === Problem.EXAMPLE_REGRESSION) {
     for (let regDataset in regDatasets) {
       let canvas: any =
           document.querySelector(`canvas[data-regDataset=${regDataset}]`);
@@ -1021,6 +1022,19 @@ function drawDatasetThumbnails() {
       renderThumbnail(canvas, dataGenerator);
     }
   }
+    if (state.problem === Problem.CUSTOM_CLASSIFICATION) {
+            let canvas: any =
+                document.querySelector(`canvas[data-dataset=dataset]`);
+            let dataGenerator = dataset.customData;
+            renderThumbnail(canvas, dataGenerator);
+    }
+
+    if (state.problem === Problem.CUSTOM_REGRESSION) {
+        let canvas: any =
+            document.querySelector(`canvas[data-dataset=custom]`);
+        let dataGenerator = dataset.customData;
+        renderThumbnail(canvas, dataGenerator);
+    }
 }
 
 function hideControls() {
@@ -1071,10 +1085,25 @@ function generateData(firstTime = false) {
     userHasInteracted();
   }
   Math.seedrandom(state.seed);
-  let numSamples = (state.problem === Problem.REGRESSION) ?
+  let numSamples = (state.problem === Problem.EXAMPLE_REGRESSION) ?
       NUM_SAMPLES_REGRESS : NUM_SAMPLES_CLASSIFY;
-  let generator = state.problem === Problem.CLASSIFICATION ?
-      state.dataset : state.regDataset;
+  //let generator = state.problem === Problem.EXAMPLE_CLASSIFICATION ?
+  //    state.dataset : state.regDataset;
+    let generator;
+  if (state.problem === Problem.EXAMPLE_CLASSIFICATION) {
+      generator = state.dataset
+  }
+    if (state.problem === Problem.EXAMPLE_REGRESSION) {
+        generator = state.regDataset
+    }
+    if (state.problem === Problem.CUSTOM_CLASSIFICATION) {
+        generator = state.customDataset
+    }
+    if (state.problem === Problem.CUSTOM_REGRESSION) {
+        generator = state.customDataset
+    }
+
+
   let data = generator(numSamples, state.noise / 100);
   // Shuffle the data in-place.
   shuffle(data);
