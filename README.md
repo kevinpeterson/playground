@@ -1,20 +1,17 @@
-# Deep playground
+# Hacked Deep Playground
 
-Deep playground is an interactive visualization of neural networks, written in TypeScript using d3.js.
-We use GitHub issues for tracking new requests and bugs. Your feedback is highly appreciated!
+A hacked version of [Tensorflow Playground](http://playground.tensorflow.org/) that allows data sets from the file system to be run.
 
-**If you'd like to contribute, be sure to review the [contribution
-guidelines](CONTRIBUTING.md).**
+Build web app:
+```npm install```
+then
+```npm run build```
 
-## Development
+Run the server:
+```npm run serve```
 
-To run the visualization locally you just need a server to serve all the files from the `dist` directory. You can run `npm install` then `npm run serve` if you don't have one handy. To see the visualization, visit `http://localhost:8080/` on your browser.
+Change the port:
+PORT=xxxx npm run serve
 
-When developing, use `npm run serve-watch`. This will start a static server and also watchers to automatically compile the TypeScript, HTML and CSS files
-whenever they change.
 
-To produce a minified JavaScript file for production, run `npm run build`.
-
-To push to production: `git subtree push --prefix dist origin gh-pages`.
-
-This is not an official Google product.
+Data files in the ```data``` directory will be automatically loaded.

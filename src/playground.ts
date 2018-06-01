@@ -16,16 +16,17 @@ limitations under the License.
 import * as nn from "./nn";
 import {HeatMap, reduceMatrix} from "./heatmap";
 import {
-  State,
-  datasets,
-  regDatasets,
-  activations,
-  problems,
-  regularizations,
-  getKeyFromValue,
-  Problem
+    State,
+    datasets,
+    customDatasets,
+    regDatasets,
+    activations,
+    problems,
+    regularizations,
+    getKeyFromValue,
+    Problem
 } from "./state";
-import {customData, Example2D, shuffle} from "./dataset";
+import {Example2D, shuffle} from "./dataset";
 import {AppendingLineChart} from "./linechart";
 import * as dataset from "./dataset";
 
@@ -209,6 +210,10 @@ function makeGUI() {
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
   dataThumbnails.on("click", function() {
     let newDataset = datasets[this.dataset.dataset];
+
+    if(! newDataset) {
+        newDataset = customDatasets[this.dataset.dataset];
+    }
     if (newDataset === state.dataset) {
       return; // No-op.
     }
@@ -991,7 +996,9 @@ function initTutorial() {
 }
 
 function drawDatasetThumbnails() {
-  function renderThumbnail(canvas, dataGenerator) {
+    let customDatasets: {[key: string]: dataset.DataGenerator} = dataset.customDataMap()
+
+    function renderThumbnail(canvas, dataGenerator) {
     let w = 100;
     let h = 100;
     canvas.setAttribute("width", w);
@@ -1023,18 +1030,24 @@ function drawDatasetThumbnails() {
     }
   }
     if (state.problem === Problem.CUSTOM_CLASSIFICATION) {
+        for (let customDataset in customDatasets) {
             let canvas: any =
-                document.querySelector(`canvas[data-dataset=dataset]`);
-            let dataGenerator = dataset.customData;
+                document.querySelector(`canvas[data-dataset=${customDataset}]`);
+            let dataGenerator = customDatasets[customDataset];
             renderThumbnail(canvas, dataGenerator);
+        }
     }
 
+    /*
     if (state.problem === Problem.CUSTOM_REGRESSION) {
-        let canvas: any =
-            document.querySelector(`canvas[data-dataset=custom]`);
-        let dataGenerator = dataset.customData;
-        renderThumbnail(canvas, dataGenerator);
+        for (let customDataset in customDatasets) {
+            let canvas: any =
+                document.querySelector(`canvas[data-dataset=${customDataset}]`);
+            let dataGenerator = customDatasets[customDataset];
+            renderThumbnail(canvas, dataGenerator);
+        }
     }
+    */
 }
 
 function hideControls() {
@@ -1077,6 +1090,16 @@ function hideControls() {
     .attr("href", window.location.href);
 }
 
+function normalize(data) {
+    let maxX = Math.max.apply(Math,data.map(function(o){return o.x;}))
+    let maxY = Math.max.apply(Math,data.map(function(o){return o.y;}))
+
+    for (var i = 0; i < data.length; i++) {
+        data[i].x = data[i].x / maxX;
+        data[i].y = data[i].y / maxY;
+    }
+}
+
 function generateData(firstTime = false) {
   if (!firstTime) {
     // Change the seed.
@@ -1097,16 +1120,22 @@ function generateData(firstTime = false) {
         generator = state.regDataset
     }
     if (state.problem === Problem.CUSTOM_CLASSIFICATION) {
-        generator = state.customDataset
+        generator = state.dataset
     }
+    /*
     if (state.problem === Problem.CUSTOM_REGRESSION) {
-        generator = state.customDataset
+        generator = state.dataset
     }
+    */
 
 
   let data = generator(numSamples, state.noise / 100);
   // Shuffle the data in-place.
   shuffle(data);
+
+  //TODO??
+  //normalize(data)
+
   // Split into train and test data.
   let splitIndex = Math.floor(data.length * state.percTrainData / 100);
   trainData = data.slice(0, splitIndex);
@@ -1141,9 +1170,12 @@ function simulationStarted() {
   parametersChanged = false;
 }
 
-drawDatasetThumbnails();
-initTutorial();
-makeGUI();
-generateData(true);
-reset(true);
-hideControls();
+dataset.getData(() => {
+    drawDatasetThumbnails();
+    initTutorial();
+    makeGUI()
+    generateData(true);
+    reset(true);
+    hideControls();
+});
+

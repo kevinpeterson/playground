@@ -15,6 +15,7 @@ limitations under the License.
 
 import * as nn from "./nn";
 import * as dataset from "./dataset";
+import {Example2D} from "./dataset";
 
 /** Suffix added to the state when storing if a control is hidden or not. */
 const HIDE_STATE_SUFFIX = "_hide";
@@ -42,11 +43,14 @@ export let datasets: {[key: string]: dataset.DataGenerator} = {
   "spiral": dataset.classifySpiralData,
 };
 
+export let customDatasets: {[key: string]: dataset.DataGenerator} = { };
+
 /** A map between dataset names and functions that generate regression data. */
 export let regDatasets: {[key: string]: dataset.DataGenerator} = {
   "reg-plane": dataset.regressPlane,
   "reg-gauss": dataset.regressGaussian
 };
+
 
 export function getKeyFromValue(obj: any, value: any): string {
   for (let key in obj) {
@@ -88,14 +92,14 @@ export enum Problem {
   EXAMPLE_CLASSIFICATION,
   EXAMPLE_REGRESSION,
   CUSTOM_CLASSIFICATION,
-  CUSTOM_REGRESSION
+  //CUSTOM_REGRESSION
 }
 
 export let problems = {
-  "example_classification": Problem.EXAMPLE_CLASSIFICATION,
-  "example_regression": Problem.EXAMPLE_REGRESSION,
-    "custom_classification": Problem.CUSTOM_REGRESSION,
-    "custom_regression": Problem.CUSTOM_REGRESSION
+    "example_classification": Problem.EXAMPLE_CLASSIFICATION,
+    "example_regression": Problem.EXAMPLE_REGRESSION,
+    "custom_classification": Problem.CUSTOM_CLASSIFICATION,
+    //"custom_regression": Problem.CUSTOM_REGRESSION
 };
 
 export interface Property {
@@ -166,7 +170,7 @@ export class State {
   sinY = false;
   dataset: dataset.DataGenerator = dataset.classifyCircleData;
   regDataset: dataset.DataGenerator = dataset.regressPlane;
-  customDataset: dataset.DataGenerator = dataset.customData;
+  customDataset: dataset.DataGenerator = (numSamples: number, noise: number) => []
   seed: string;
 
   /**
@@ -267,7 +271,7 @@ export class State {
     getHideProps(this).forEach(prop => {
       props.push(`${prop}=${this[prop]}`);
     });
-    window.location.hash = props.join("&");
+    //window.location.hash = props.join("&");
   }
 
   /** Returns all the hidden properties. */

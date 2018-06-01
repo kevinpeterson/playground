@@ -15,22 +15,26 @@
     "watch-js": "watchify src/playground.ts -p [tsify] -v --debug -o dist/bundle.js",
     "build": "npm run prep && npm run build-js && npm run build-css && npm run build-html",
     "watch": "npm run prep && concurrently \"npm run watch-js\" \"npm run watch-css\" \"npm run watch-html\"",
-    "serve": "http-server dist/",
+    "serve": "concurrently \"http-server dist/\" \"node server.js\"",
     "serve-watch": "concurrently \"live-server dist/\" \"npm run watch\""
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.2",
     "concurrently": "3.1.0",
     "copyfiles": "1.0.0",
+    "express": "4.16.3",
+    "http-server": "^0.9.0",
     "live-server": "1.1.0",
     "rimraf": "2.5.4",
-    "typescript": "2.1.4",
-    "typings": "^0.7.9",
-    "uglify-js": "^2.6.2",
     "tsify": "3.0.1",
+    "typescript": "2.9.1",
+    "typings": "2.1.1",
+    "uglify-js": "^2.6.2",
     "watchify": "3.9.0",
-    "http-server": "^0.9.0"
+    "jquery": "3.3.1"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "catw": "^1.0.1",
     "d3": "^3.5.16",
     "material-design-lite": "^1.1.3",
