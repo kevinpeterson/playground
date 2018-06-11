@@ -21,7 +21,7 @@ app.get('/datasets/:id', function (req, res) {
 });
 
 app.get('/datasets', function (req, res) {
-    fs. readdir('data', function(err, items) {
+    fs.readdir('data', function(err, items) {
         res.send(items);
     })
 });
