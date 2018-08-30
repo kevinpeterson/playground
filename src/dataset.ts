@@ -15,7 +15,7 @@ limitations under the License.
 
 import axios from 'axios';
 import * as $ from 'jquery'
-
+import * as d3 from 'd3';
 import * as state from "./state";
 
 /**
